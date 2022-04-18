@@ -14,18 +14,24 @@ public class MoodAnalyzer {
     public MoodAnalyzer() {
     }
 
-    public String analyzeMood(String message) {
+    public String analyzeMood(String message) throws MoodAnalyzerException {
         this.message = message;
         return analyzeMood();
     }
-    public static String analyzeMood() {   // Analyzing mood using method analyse mood with parameter passed
+    public static String analyzeMood() throws MoodAnalyzerException {   // Analyzing mood using method analyse mood with parameter passed
         try {
-            if (message.toLowerCase().contains("sad"))
+            if (message.length() == 0) {
+                throw new MoodAnalyzerException(MoodAnalyzerException.ExceptionType.EMPTY, "Empty mood");
+            }
+            if (message.toLowerCase().contains("sad")) {
+                System.out.println("SAD");
                 return "SAD";
-            else
+            } else {
+                System.out.println("HAPPY");
                 return "HAPPY";
-        } catch (NullPointerException e) {
-            return "HAPPY";
+            }
+        } catch (NullPointerException exception) {
+            throw new MoodAnalyzerException(MoodAnalyzerException.ExceptionType.NULL, "Invalid mood");
         }
     }
 }
